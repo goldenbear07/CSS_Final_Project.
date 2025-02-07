@@ -1,21 +1,134 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* General Styles */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: 'Netflix Sans', sans-serif;
+  background-color: #101010;
+  color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+/* Featured Movie Section */
+.featured-movie {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5rem;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  height: 500px;
+}
+
+.featured-movie .movie-details {
+  max-width: 50%;
+  z-index: 2;
+}
+
+.featured-movie h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.featured-movie p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ddd;
+}
+
+.featured-movie button {
+  padding: 1rem 2rem;
+  background-color: black;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.featured-movie button:hover {
+  transform: translateY(-3px);
+  background-color: lightblue;
+}
+
+.featured-movie::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 30%, transparent 70%);
+  z-index: 1;
+}
+
+/* Movies Section */
+.popular-movies, .popular-tv {
+  padding: 3rem; /* Horizontal padding for alignment */
+  margin: 0; /* Remove margin from section */
+}
+
+.popular-movies h2, .popular-tv {
+  color: white;
+  margin: 2rem 0 1rem; /* Add spacing above and below the heading */
+  font-weight: bold;
+  font-family: 'Netflix Sans', sans-serif;
+}
+
+/* Movies Grid */
+.movies-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem; /* Spacing between cards */
+  margin: 0; /* Align grid with heading */
+  padding-bottom: 0rem; /* Add bottom padding for scrolling space */
+  scrollbar-width: none;
+}
+
+.movies-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Movie Card */
+.movie-card {
+  width: 200px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.movie-card img:hover {
+  transform: scale(1.05);
+}
+
+/* Movie Title and Rating */
+.movie-card h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffc107;
+  margin: 0.5rem 0 0.3rem 0;
+  text-transform: capitalize;
+}
+
+.movie-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ccc;
+  font-weight: bold;
 }
