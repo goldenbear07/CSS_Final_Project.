@@ -1,3 +1,4 @@
+
 /* General Styles */
 body {
   margin: 0;
@@ -132,3 +133,17 @@ h1, h2, h3, p {
   color: #ccc;
   font-weight: bold;
 }
+
+
+/* globals.css */
+body.light-mode {
+  background-color: white;
+  color: black;
+}
+
+body.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+
