@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';  // Use Next.js router
 import styles from './Navbar.module.css';
 import { FaSearch, FaUserCircle } from 'react-icons/fa';
 
