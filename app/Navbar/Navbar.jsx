@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';  // Use Next.js router
 import styles from './Navbar.module.css';
 import { FaSearch, FaUserCircle } from 'react-icons/fa';
 
@@ -11,7 +11,8 @@ const Navbar = () => {
 
     const handleSearch = () => {
         if (searchQuery.trim()) {
-            router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+            // Use router.replace to update the query and refresh the page
+            router.replace(`/search?query=${encodeURIComponent(searchQuery)}`);
         }
     };
 
@@ -32,7 +33,7 @@ const Navbar = () => {
                         placeholder="Search..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()} // Allow Enter key
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()} // Trigger search on Enter key press
                     />
                     <button className={styles.searchButton} onClick={handleSearch}>
                         <FaSearch />

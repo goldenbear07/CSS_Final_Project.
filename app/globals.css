@@ -132,3 +132,49 @@ h1, h2, h3, p {
   color: #ccc;
   font-weight: bold;
 }
+
+
+/* New class for search results layout */
+.search-results-grid {
+  display: flex;
+  flex-wrap: wrap; /* Allow the items to wrap to the next line */
+  gap: 1.5rem; /* Add space between the cards */
+  justify-content: flex-start; /* Align items at the start */
+  padding-bottom: 1rem; /* Add some space below the grid */
+  margin: 0; /* Remove margin to maintain consistent alignment */
+}
+
+/* Movie Card Adjustments for better spacing */
+.search-card {
+  width: 200px; /* Keep the same width as in the previous .movie-card */
+  flex-shrink: 0; /* Prevent shrinking */
+  text-align: center;
+  margin-bottom: 1rem; /* Add some margin below each card */
+}
+
+.search-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.search-card img:hover {
+  transform: scale(1.05); /* Hover effect for images */
+}
+
+/* Movie Title and Rating inside search results */
+.search-card h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffc107;
+  margin: 0.5rem 0 0.3rem 0;
+  text-transform: capitalize;
+}
+
+.search-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ccc;
+  font-weight: bold;
+}
