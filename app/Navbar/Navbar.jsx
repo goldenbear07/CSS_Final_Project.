@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './Navbar.module.css';
 import { FaSearch, FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const router = useRouter();
 
     const handleSearch = () => {
         if (searchQuery.trim()) {
-            console.log(`Searching for: ${searchQuery}`);
+            router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
         }
     };
 
@@ -18,8 +20,8 @@ const Navbar = () => {
             <div className={styles.logo}>MovieHub</div>
             <ul className={styles.navLinks}>
                 <li><a href="/">Home</a></li>
-                <li><a href="/movies">Movies</a></li>
-                <li><a href="/tv-shows">TV Shows</a></li>
+                <li><a href="/Movies">Movies</a></li>
+                <li><a href="/Shows">TV Shows</a></li>
                 <li><a href="/favourites">Favourites</a></li>
             </ul>
             <div className={styles.navRight}>
@@ -30,6 +32,7 @@ const Navbar = () => {
                         placeholder="Search..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()} // Allow Enter key
                     />
                     <button className={styles.searchButton} onClick={handleSearch}>
                         <FaSearch />
