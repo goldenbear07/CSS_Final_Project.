@@ -1,5 +1,6 @@
 "use client";
 import useSWR from "swr";
+import Link from "next/link"; // Import Link for navigation
 
 const fetcher = async () => {
   const response = await fetch(
@@ -14,22 +15,22 @@ export default function Movie() {
 
   if (error) return <p className="error">Failed to load movies.</p>;
   if (isLoading) return <p className="loading">Loading movies...</p>;
-  console.log('Movies:', Movie); //checking the movies in the api
 
   return (
     <div className="movies-grid">
       {data.results.map((movie) => (
         <div key={movie.id} className="movie-card">
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            className="poster"
-          />
+          <Link href={`/movieDetails/${movie.id}`}> {/* Use movieDetails instead of Movie */}
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="poster"
+            />
+          </Link>
           <h3>{movie.title}</h3>
           <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
         </div>
       ))}
     </div>
   );
-  
 }

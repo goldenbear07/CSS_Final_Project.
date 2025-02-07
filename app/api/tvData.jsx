@@ -1,5 +1,6 @@
 "use client";
 import useSWR from "swr";
+import Link from "next/link"; // Import Link for navigation
 
 const fetcher = async () => {
   const response = await fetch(
@@ -17,17 +18,19 @@ export default function TvShows() {
 
   return (
     <div className="movies-grid">
-    {data.results.map((show) => (
-      <div key={show.id} className="movie-card">
-        <img
-          src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-          alt={show.name}
-          className="poster"
-        />
-        <h3>{show.name}</h3>
-        <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
-      </div>
-    ))}
-  </div>
+      {data.results.map((show) => (
+        <div key={show.id} className="movie-card">
+          <Link href={`/tvDetails/${show.id}`}> {/* Ensure correct route */}
+            <img
+              src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+              alt={show.name}
+              className="poster"
+            />
+          </Link>
+          <h3>{show.name}</h3>
+          <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
+        </div>
+      ))}
+    </div>
   );
 }
