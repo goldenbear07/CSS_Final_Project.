@@ -5,10 +5,6 @@ import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
 
-const API_KEY = "51372fec0f0d192195fa00d7602b7900";
-const GENRE_API = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}`;
-const TV_API = (genreId) => `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&page=1&limit=10`;
-const POPULAR_TV_API = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=1`;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -81,3 +77,4 @@ const Page = () => {
 };
 
 export default Page;
+
