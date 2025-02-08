@@ -8,6 +8,7 @@ export default function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   // Fetch movie details
   useEffect(() => {
@@ -31,6 +32,17 @@ export default function MovieDetails() {
           );
           setTrailer(officialTrailer);
         });
+    }
+  }, [id]);
+
+  // Fetch reviews
+  useEffect(() => {
+    if (id) {
+      fetch(
+        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}&language=en-US`
+      )
+        .then((res) => res.json())
+        .then((data) => setReviews(data.results));
     }
   }, [id]);
 
@@ -91,6 +103,21 @@ export default function MovieDetails() {
             <p><strong>Language:</strong> {movie.original_language}</p>
           </div>
         </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="reviews-section">
+        <h2>Reviews</h2>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div key={review.id} className="review-card">
+              <h3>{review.author}</h3>
+              <p>{review.content}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews available for this movie.</p>
+        )}
       </div>
     </div>
   );
