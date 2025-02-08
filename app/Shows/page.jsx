@@ -5,8 +5,15 @@ import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
 
+// Use your API key directly in the code
+const API_KEY = "51372fec0f0d192195fa00d7602b7900";
+
+const GENRE_API = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}`;
+const POPULAR_TV_API = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const TV_API = (genreId) => `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=${genreId}`;
 
 const Page = () => {
   const { data: genreData, error: genreError } = useSWR(GENRE_API, fetcher);
