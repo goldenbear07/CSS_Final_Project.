@@ -143,20 +143,35 @@ h1, h2, h3, p {
 .banner {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 450px; /* Adjust height as needed */
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
+  overflow: hidden;
 }
 
-.banner-overlay {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 2rem;
+/* Banner Overlay (Gradient Effect) */
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 900px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 30%, transparent 70%);
+  z-index: 1;
+}
+
+/* Overlay Content */
+.banner-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
   color: white;
+  max-width: 600px;
   text-align: left;
 }
 
@@ -168,7 +183,7 @@ h1, h2, h3, p {
 
 .rating-info {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   font-size: 1rem;
   color: #ccc;
   margin-bottom: 1rem;
@@ -184,7 +199,8 @@ h1, h2, h3, p {
   margin-bottom: 1.5rem;
 }
 
-/* Details Section */
+
+/* Shared Details Section */
 .details-container {
   display: flex;
   gap: 2rem;
@@ -240,7 +256,59 @@ h1, h2, h3, p {
   font-size: 0.9rem;
 }
 
-/* Watch Trailer Button */
+/* Reviews Section */
+.reviews-section {
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.reviews-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.review-card {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.review-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+}
+
+.review-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffc107;
+  margin-bottom: 1rem;
+}
+
+.review-card .review-content {
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.read-more {
+  color: #1e90ff;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+
+/* Shared Watch Trailer Button */
 .watch-trailer {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -259,9 +327,6 @@ h1, h2, h3, p {
   background-color: #187bcd;
   transform: scale(1.05);
 }
-
-
-
 
 .search-results-grid {
   display: flex;

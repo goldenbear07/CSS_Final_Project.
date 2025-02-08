@@ -112,7 +112,23 @@ export default function MovieDetails() {
           reviews.map((review) => (
             <div key={review.id} className="review-card">
               <h3>{review.author}</h3>
-              <p>{review.content}</p>
+              <p className="review-content">
+                {review.content.length > 300
+                  ? `${review.content.substring(0, 300)}...`
+                  : review.content}
+              </p>
+              {review.content.length > 300 && (
+                <span
+                  className="read-more"
+                  onClick={(e) => {
+                    const contentElement = e.target.previousElementSibling;
+                    contentElement.innerText = review.content;
+                    e.target.style.display = "none";
+                  }}
+                >
+                  Read More
+                </span>
+              )}
             </div>
           ))
         ) : (
