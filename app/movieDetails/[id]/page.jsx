@@ -51,8 +51,8 @@ export default function MovieDetails() {
   return (
     <div className="movie-details-page">
       {/* Banner Section */}
-      <div 
-        className="banner" 
+      <div
+        className="banner"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
         }}
@@ -63,7 +63,7 @@ export default function MovieDetails() {
             <span>⭐ {movie.vote_average.toFixed(1)}</span>
             <span>{movie.vote_count} Reviews</span>
             <span>{movie.release_date}</span>
-            <span>{movie.runtime} mins</span>
+            <span>{movie.runtime || "N/A"} mins</span>
           </div>
           <p>{movie.overview}</p>
           {trailer && (
@@ -73,7 +73,7 @@ export default function MovieDetails() {
               rel="noopener noreferrer"
               className="watch-trailer"
             >
-              ▶ Watch Trailer
+              Watch Trailer
             </a>
           )}
         </div>
