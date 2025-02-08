@@ -1,43 +1,38 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import styles from "./movies.module.css";
+import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
 
+// Use your API key directly in the code
 const API_KEY = "51372fec0f0d192195fa00d7602b7900";
-const GENRE_API = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`;
-const MOVIE_API = (genreId) => `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&page=1`;
-const POPULAR_MOVIE_API = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=1`;
+
+// API Endpoints for different movie categories
+const TOP_RATED_MOVIE_API = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=1`;
+const UPCOMING_MOVIE_API = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=1`;
+const NOW_PLAYING_MOVIE_API = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=1`;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Page = () => {
-  const { data: genreData, error: genreError } = useSWR(GENRE_API, fetcher);
-  const { data: popularMovieData, error: popularMovieError } = useSWR(POPULAR_MOVIE_API, fetcher);
-  const [movies, setMovies] = useState({});
+  // State to hold data for different categories
+  const { data: topRatedData, error: topRatedError } = useSWR(TOP_RATED_MOVIE_API, fetcher);
+  const { data: upcomingData, error: upcomingError } = useSWR(UPCOMING_MOVIE_API, fetcher);
+  const { data: nowPlayingData, error: nowPlayingError } = useSWR(NOW_PLAYING_MOVIE_API, fetcher);
 
-  useEffect(() => {
-    if (genreData && genreData.genres) {
-      genreData.genres.forEach(async (genre) => {
-        const response = await fetch(MOVIE_API(genre.id));
-        const data = await response.json();
-        setMovies((prev) => ({ ...prev, [genre.name]: data.results.slice(0, 10) })); // Store first 10 movies per genre
-      });
-    }
-  }, [genreData]);
-
-  if (genreError) return <p className="error">Failed to load genres.</p>;
-  if (popularMovieError) return <p className="error">Failed to load popular movies.</p>;
+  if (topRatedError || upcomingError || nowPlayingError) {
+    return <p className="error">Failed to load movies.</p>;
+  }
 
   return (
     <div>
-      {/* Featured Popular Movies */}
-      <section className="movie-genre-section">
-        <h2>Popular Movies</h2>
-        {popularMovieData && (
+      {/* Top-Rated Movies Section */}
+      <section className="movie-category">
+        <h2>Top-Rated Movies</h2>
+        {topRatedData && (
           <div className="movies-grid">
-            {popularMovieData.results.map((movie) => (
+            {topRatedData.results.slice(0, 20).map((movie) => (
               <div key={movie.id} className="movie-card">
                 <Link href={`/movieDetails/${movie.id}`}>
                   <img
@@ -54,12 +49,12 @@ const Page = () => {
         )}
       </section>
 
-      {/* Movies by Genre */}
-      {Object.entries(movies).map(([genre, moviesInGenre]) => (
-        <section key={genre} className="movie-genre-section">
-          <h3>{genre}</h3>
+      {/* Upcoming Movies Section */}
+      <section className="movie-category">
+        <h2>Upcoming Movies</h2>
+        {upcomingData && (
           <div className="movies-grid">
-            {moviesInGenre.map((movie) => (
+            {upcomingData.results.slice(0, 20).map((movie) => (
               <div key={movie.id} className="movie-card">
                 <Link href={`/movieDetails/${movie.id}`}>
                   <img
@@ -73,8 +68,30 @@ const Page = () => {
               </div>
             ))}
           </div>
-        </section>
-      ))}
+        )}
+      </section>
+
+      {/* Now Playing Movies Section */}
+      <section className="movie-category">
+        <h2>Now Playing Movies</h2>
+        {nowPlayingData && (
+          <div className="movies-grid">
+            {nowPlayingData.results.slice(0, 20).map((movie) => (
+              <div key={movie.id} className="movie-card">
+                <Link href={`/movieDetails/${movie.id}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    className="poster"
+                  />
+                </Link>
+                <h3>{movie.title}</h3>
+                <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
