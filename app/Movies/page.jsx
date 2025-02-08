@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
-
+import MovieGenreDropdown from "../movieDropdown/page";
 // Use your API key directly in the code
 const API_KEY = "51372fec0f0d192195fa00d7602b7900";
 
@@ -27,6 +27,7 @@ const Page = () => {
 
   return (
     <div>
+      <MovieGenreDropdown></MovieGenreDropdown>
       {/* Top-Rated Movies Section */}
       <section className="movie-category">
         <h2>Top-Rated Movies</h2>

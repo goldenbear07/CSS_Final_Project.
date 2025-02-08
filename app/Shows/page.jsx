@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
+import DropdownMenu from '../TVdropdown/dropdown';
+
 
 // Use your API key directly in the code
 const API_KEY = "51372fec0f0d192195fa00d7602b7900";
@@ -27,6 +29,7 @@ const Page = () => {
 
   return (
     <div>
+        <DropdownMenu></DropdownMenu>
       {/* Top-Rated TV Shows Section */}
       <section className="tv-category">
         <h2>Top-Rated TV Shows</h2>

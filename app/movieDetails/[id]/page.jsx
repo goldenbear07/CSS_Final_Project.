@@ -1,6 +1,5 @@
-//Toh Keng Siong S10267107C
-
 "use client";
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 

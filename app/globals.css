@@ -1,5 +1,3 @@
-/*Toh Keng Siong, Van, Ryan Tan*/
-
 /* General Styles */
 body {
   margin: 0;
@@ -145,35 +143,20 @@ h1, h2, h3, p {
 .banner {
   position: relative;
   width: 100%;
-  height: 600px; /* Increase height for a more cinematic feel */
-  background-size: cover; /* Ensures the image covers the entire banner */
-  background-position: top center; /* Focus on the center-top of the image */
-  background-repeat: no-repeat; /* Prevent tiling */
+  height: 400px;
+  background-size: cover;
+  background-position: center;
   display: flex;
-  align-items: flex-end; /* Align content to the bottom */
+  align-items: flex-end;
   justify-content: flex-start;
-  color: white;
-  overflow: hidden;
 }
 
-/* Gradient Overlay for Better Text Visibility */
-.banner::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.3));
-  z-index: 1;
-}
-
-/* Banner Overlay Text Content */
 .banner-overlay {
-  position: relative;
-  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
   padding: 2rem;
-  max-width: 700px;
+  width: 100%;
+  max-width: 900px;
+  color: white;
   text-align: left;
 }
 
@@ -181,15 +164,14 @@ h1, h2, h3, p {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .rating-info {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   font-size: 1rem;
-  margin-bottom: 1rem;
   color: #ccc;
+  margin-bottom: 1rem;
 }
 
 .rating-info span {
@@ -198,13 +180,11 @@ h1, h2, h3, p {
 
 .banner-overlay p {
   font-size: 1.2rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
   color: #ddd;
+  margin-bottom: 1.5rem;
 }
 
-
-/* Shared Details Section */
+/* Details Section */
 .details-container {
   display: flex;
   gap: 2rem;
@@ -260,69 +240,18 @@ h1, h2, h3, p {
   font-size: 0.9rem;
 }
 
-/* Reviews Section */
-.reviews-section {
-  margin: 2rem auto;
-  max-width: 800px;
-  padding: 2rem;
-}
-
-.reviews-section h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: white;
-  text-align: center;
-}
-
-.review-card {
-  background-color: #1e1e1e;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.review-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
-}
-
-.review-card h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffc107;
-  margin-bottom: 1rem;
-}
-
-.review-card .review-content {
-  font-size: 1rem;
-  color: #ddd;
-  line-height: 1.5;
-}
-
-.read-more {
-  color: #1e90ff;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 0.5rem;
-}
-
-.read-more:hover {
-  text-decoration: underline;
-}
-
-
-/* Shared Watch Trailer Button */
+/* Watch Trailer Button */
 .watch-trailer {
   display: inline-block;
   padding: 0.8rem 1.5rem;
   background-color: #1e90ff;
   color: white;
   font-size: 1rem;
-  font-weight: bold;
   text-transform: uppercase;
-  text-decoration: none;
+  font-weight: bold;
   border-radius: 5px;
+  margin-top: 1rem;
+  text-decoration: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -330,6 +259,9 @@ h1, h2, h3, p {
   background-color: #187bcd;
   transform: scale(1.05);
 }
+
+
+
 
 .search-results-grid {
   display: flex;
@@ -408,4 +340,46 @@ h1, h2, h3, p {
   color: #ccc;
   line-height: 1.5;
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
+.dropdown-button {
+  background-color: rgb(173, 216, 230); /* Change to RGB color */
+  color: white;
+  padding: 15px 25px; /* More padding (vertical and horizontal) */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dropdown-button:hover {
+  background-color: #0056b3;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  list-style: none;
+  padding: 10px; /* Adjust padding inside the menu */
+}
+
+.dropdown-item {
+  padding: 12px 20px; /* Increased padding for the items */
+  cursor: pointer;
+}
+
+.dropdown-item a {
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
