@@ -12,25 +12,29 @@ const SearchPage = () => {
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    setResults([]); // Reset results on new search
+    setCurrentPage(1); // Reset page to 1
+  }, [query]);
 
   useEffect(() => {
     if (query) {
-      setIsLoading(true);  
+      setIsLoading(true);
       fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${query}&page=${currentPage}`)
         .then((res) => res.json())
         .then((data) => {
-          setResults(currentPage === 1 ? data.results : [...results, ...data.results]); 
+          setResults((prevResults) => currentPage === 1 ? data.results : [...prevResults, ...data.results]);
           setTotalPages(data.total_pages);
-          setIsLoading(false);  
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
-          setIsLoading(false);  
+          setIsLoading(false);
         });
     }
-  }, [query, currentPage]); 
+  }, [query, currentPage]);
 
   const loadMoreResults = () => {
     if (currentPage < totalPages) {
@@ -38,15 +42,25 @@ const SearchPage = () => {
     }
   };
 
+  // Navigate to the movie details page with a dynamic route
+  const handleMovieClick = (id) => {
+    router.push(`/movieDetails/${id}`);
+  };
+
   return (
     <div className="popular-movies">
       <h2 className="popular-movies">Search Results for "{query}"</h2>
-      <div className="search-results-grid"> 
+      <div className="search-results-grid">
         {isLoading ? (
           <p>Loading...</p>
         ) : results.length > 0 ? (
           results.map((item) => (
-            <div key={item.id} className="search-card"> 
+            <div 
+              key={item.id} 
+              className="search-card" 
+              onClick={() => handleMovieClick(item.id)} // Navigate on click
+              style={{ cursor: 'pointer' }}
+            >
               <img
                 src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                 alt={item.title || item.name}
@@ -68,4 +82,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
