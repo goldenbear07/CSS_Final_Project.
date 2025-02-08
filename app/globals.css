@@ -306,3 +306,38 @@ h1, h2, h3, p {
   color: #ccc;
   font-weight: bold;
 }
+
+/* Reviews Section */
+.reviews-section {
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 2rem;
+  background: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.reviews-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.review-card {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+.review-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffc107;
+}
+
+.review-card p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.5;
+}
+

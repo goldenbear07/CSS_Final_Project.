@@ -1,85 +1,80 @@
 "use client";
 
-import React, { useState } from "react";
-import useSWR from "swr";
-import Link from "next/link"; // Import Link for navigation
+import React, { useState, useEffect } from "react";
 import styles from "../globals.css";
+import useSWR from "swr";
+import Link from "next/link";
 
-// Fetcher for Movies by Genre
-const fetcherByGenre = async (genreId) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=51372fec0f0d192195fa00d7602b7900&with_genres=${genreId}`
-  );
-  const data = await response.json();
-  return data;
-};
 
-// Fetcher for Movie Genres
-const fetchGenres = async () => {
-  const response = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=51372fec0f0d192195fa00d7602b7900"
-  );
-  const data = await response.json();
-  return data.genres;
-};
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Page() {
-  const { data: genresData, error: genresError, isLoading: genresLoading } = useSWR("genres", fetchGenres);
-  const [genreNames, setGenreNames] = useState({});
+const Page = () => {
+  const { data: genreData, error: genreError } = useSWR(GENRE_API, fetcher);
+  const { data: popularTvData, error: popularTvError } = useSWR(POPULAR_TV_API, fetcher);
+  const [tvShows, setTvShows] = useState({});
 
-  // Handle loading and errors
-  if (genresError) return <p className="error">Failed to load genres.</p>;
-  if (genresLoading) return <p className="loading">Loading genres...</p>;
+  useEffect(() => {
+    if (genreData && genreData.genres) {
+      genreData.genres.forEach(async (genre) => {
+        const response = await fetch(TV_API(genre.id));
+        const data = await response.json();
+        setTvShows((prev) => ({ ...prev, [genre.name]: data.results.slice(0, 10) }));
+      });
+    }
+  }, [genreData]);
 
-  const genres = genresData || [];
-
-  // Map genre IDs to genre names
-  if (genres.length && Object.keys(genreNames).length === 0) {
-    const genreMap = {};
-    genres.forEach((genre) => {
-      genreMap[genre.id] = genre.name;
-    });
-    setGenreNames(genreMap); // Store the genre name map
-  }
+  if (genreError) return <p className="error">Failed to load genres.</p>;
+  if (popularTvError) return <p className="error">Failed to load popular TV shows.</p>;
 
   return (
     <div>
-      {/* Dynamic Movie Genre Sections */}
-      {genres.map((genre) => {
-        const { data, error, isLoading } = useSWR(
-          [`movieDataByGenre-${genre.id}`, genre.id],
-          () => fetcherByGenre(genre.id)
-        );
-
-        // Handle loading and errors for each genre
-        if (error) return <p className="error" key={genre.id}>Failed to load {genreNames[genre.id]} movies.</p>;
-        if (isLoading) return <p className="loading" key={genre.id}>Loading {genreNames[genre.id]} movies...</p>;
-
-        const movies = data?.results.slice(0, 10) || []; // Limit to 10 movies
-
-        return (
-          <section key={genre.id} className="movie-genre-section">
-            <h2>{genreNames[genre.id]}</h2> {/* Display Genre Name as Title */}
-            <div className="movies-grid">
-              {movies.map((movie) => (
-                <div key={movie.id} className="movie-card">
-                  <Link href={`/movieDetails/${movie.id}`}>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      className="poster"
-                    />
-                  </Link>
-                  <h3>{movie.title}</h3>
-                  <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      {/* Popular TV Shows Section */}
+      <section className="popular-tv-genre">
+        <h2>Popular TV Shows</h2>
+        {popularTvData && (
+          <div className="movies-grid">
+            {popularTvData.results.map((show) => (
+              <div key={show.id} className="movie-card">
+                <Link href={`/tvDetails/${show.id}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={show.name}
+                    className="poster"
+                  />
+                </Link>
+                <h3>{show.name}</h3>
+                <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+      {/* TV Shows by Genre */}
+      {Object.entries(tvShows).map(([genre, shows]) => (
+        <div key={genre} className="popular-tv-genre">
+          <h3>
+            <Link href={`/genre/${genre.toLowerCase()}`}>{genre}</Link>
+          </h3>
+          <div className="movies-grid">
+            {shows.map((show) => (
+              <div key={show.id} className="movie-card">
+                <Link href={`/tvDetails/${show.id}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={show.name}
+                    className="poster"
+                  />
+                </Link>
+                <h3>{show.name}</h3>
+                <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
-}
+};
 
+export default Page;
 
