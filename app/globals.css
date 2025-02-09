@@ -121,7 +121,7 @@ h1, h2, h3, p {
 .movie-card h3 {
   font-size: 1rem;
   font-weight: bold;
-  color: #ffc107;
+  color: lightblue;
   margin: 0.5rem 0 0.3rem 0;
   text-transform: capitalize;
 }
