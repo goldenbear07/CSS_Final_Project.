@@ -5,6 +5,7 @@ import styles from "../globals.css";
 import useSWR from "swr";
 import Link from "next/link";
 import MovieGenreDropdown from "../movieDropdown/page";
+
 // Use your API key directly in the code
 const API_KEY = "51372fec0f0d192195fa00d7602b7900";
 
@@ -30,7 +31,8 @@ const Page = () => {
   return (
     <div>
       <MovieGenreDropdown></MovieGenreDropdown>
-            {/* Popular Movies Section */}
+
+      {/* Popular Movies Section */}
       <section className="movie-category">
         <h2>Popular Movies</h2>
         {popularMoviesData && (
@@ -117,8 +119,6 @@ const Page = () => {
           </div>
         )}
       </section>
-
-
     </div>
   );
 };
