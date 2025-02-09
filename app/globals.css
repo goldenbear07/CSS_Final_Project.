@@ -143,20 +143,35 @@ h1, h2, h3, p {
 .banner {
   position: relative;
   width: 100%;
-  height: 400px;
-  background-size: cover;
-  background-position: center;
+  height: 600px; /* Increase height for a more cinematic feel */
+  background-size: cover; /* Ensures the image covers the entire banner */
+  background-position: top center; /* Focus on the center-top of the image */
+  background-repeat: no-repeat; /* Prevent tiling */
   display: flex;
-  align-items: flex-end;
+  align-items: flex-end; /* Align content to the bottom */
   justify-content: flex-start;
+  color: white;
+  overflow: hidden;
 }
 
-.banner-overlay {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 2rem;
+/* Gradient Overlay for Better Text Visibility */
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 900px;
-  color: white;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.3));
+  z-index: 1;
+}
+
+/* Banner Overlay Text Content */
+.banner-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  max-width: 700px;
   text-align: left;
 }
 
@@ -164,14 +179,15 @@ h1, h2, h3, p {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .rating-info {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   font-size: 1rem;
-  color: #ccc;
   margin-bottom: 1rem;
+  color: #ccc;
 }
 
 .rating-info span {
@@ -180,8 +196,9 @@ h1, h2, h3, p {
 
 .banner-overlay p {
   font-size: 1.2rem;
-  color: #ddd;
+  line-height: 1.6;
   margin-bottom: 1.5rem;
+  color: #ddd;
 }
 
 /* Details Section */
@@ -244,7 +261,7 @@ h1, h2, h3, p {
 .watch-trailer {
   display: inline-block;
   padding: 0.8rem 1.5rem;
-  background-color: #1e90ff;
+  background-color: black;
   color: white;
   font-size: 1rem;
   text-transform: uppercase;
@@ -256,12 +273,15 @@ h1, h2, h3, p {
 }
 
 .watch-trailer:hover {
-  background-color: #187bcd;
+  background-color: lightblue;
   transform: scale(1.05);
 }
 
-
-
+.watch-trailer.disabled {
+  background-color: #444;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .search-results-grid {
   display: flex;
