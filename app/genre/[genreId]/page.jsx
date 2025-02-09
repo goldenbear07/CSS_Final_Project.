@@ -1,18 +1,16 @@
+//Done by Van S10268226K
 'use client';
 
 import React from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
 import DropdownMenu  from '@/app/TVdropdown/dropdown';
-// Use your API key directly in the code
 const API_KEY = '51372fec0f0d192195fa00d7602b7900';
 
-// Get current year
 const currentYear = new Date().getFullYear();
 const firstDayOfYear = `${currentYear}-01-01`; // January 1st of the current year
 const today = new Date().toISOString().split('T')[0]; // Current date
 
-// API Endpoints for different categories
 const TOP_RATED_TV_API = (genreId) =>
   `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&sort_by=vote_average.desc&page=1`;
 const NEW_TV_SHOWS_API = (genreId) =>
@@ -25,31 +23,30 @@ const POPULAR_TV_API = (genreId) =>
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GenrePage = ({ params }) => {
-  // Extract genreId from params
   const resolvedParams = React.use(params);
   const { genreId } = resolvedParams;
 
-  // Fetch data for different categories using SWR
   const { data: topRatedData, error: topRatedError } = useSWR(TOP_RATED_TV_API(genreId), fetcher);
   const { data: newShowsData, error: newShowsError } = useSWR(NEW_TV_SHOWS_API(genreId), fetcher);
   const { data: currentlyRunningData, error: currentlyRunningError } = useSWR(CURRENTLY_RUNNING_TV_API(genreId), fetcher);
   const { data: popularData, error: popularError } = useSWR(POPULAR_TV_API(genreId), fetcher);
 
-  // Fetch genre names
+  // get genre names
   const { data: genreData, error: genreError } = useSWR(`https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}`, fetcher);
 
   if (topRatedError || newShowsError || currentlyRunningError || popularError || genreError) {
     return <p className="error">Failed to load data.</p>;
   }
 
-  // Find the genre name based on genreId
+  // get the genre name based on genreId
   const genre = genreData?.genres.find((genre) => genre.id === parseInt(genreId))?.name;
 
   return (
     <div>
       <DropdownMenu></DropdownMenu>
       <h1>{genre} TV Shows</h1>
-      {/* Popular TV Shows Section */}
+
+      {/*Shows currently popular/trending TV shows*/}
       <section className="tv-category">
         <h2>{genre ? `Popular ${genre} TV Shows` : 'Popular TV Shows'}</h2>
         {popularData && (
@@ -71,8 +68,7 @@ const GenrePage = ({ params }) => {
         )}
       </section>
       
-
-      {/* Top-Rated TV Shows Section */}
+      {/*Shows top rated shows of the genre*/}
       <section className="tv-category">
         <h2>{genre ? `Top-Rated ${genre} TV Shows` : 'Top-Rated TV Shows'}</h2>
         {topRatedData && (
@@ -94,7 +90,7 @@ const GenrePage = ({ params }) => {
         )}
       </section>
       
-      {/* New TV Shows Section (Only Shows from Current Year) */}
+      {/*Shows only TV shows that started airing in the current year */}
       <section className="tv-category">
         <h2>{genre ? `New ${genre} TV Shows of ${currentYear}` : 'New TV Shows'}</h2>
         {newShowsData && (

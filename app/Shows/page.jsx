@@ -1,3 +1,5 @@
+//Done by Van S10268226K
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,10 +9,8 @@ import Link from "next/link";
 import DropdownMenu from '../TVdropdown/dropdown';
 
 
-// Use your API key directly in the code
 const API_KEY = "51372fec0f0d192195fa00d7602b7900";
 
-// API Endpoints for different categories
 const TOP_RATED_TV_API = `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&page=1`;
 const UPCOMING_TV_API = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${API_KEY}&page=1`;
 const CURRENTLY_RUNNING_TV_API = `https://api.themoviedb.org/3/tv/airing_today?api_key=${API_KEY}&page=1`;
@@ -18,7 +18,6 @@ const CURRENTLY_RUNNING_TV_API = `https://api.themoviedb.org/3/tv/airing_today?a
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Page = () => {
-  // State to hold data for different categories
   const { data: topRatedData, error: topRatedError } = useSWR(TOP_RATED_TV_API, fetcher);
   const { data: upcomingData, error: upcomingError } = useSWR(UPCOMING_TV_API, fetcher);
   const { data: currentlyRunningData, error: currentlyRunningError } = useSWR(CURRENTLY_RUNNING_TV_API, fetcher);
@@ -30,7 +29,6 @@ const Page = () => {
   return (
     <div>
         <DropdownMenu></DropdownMenu>
-      {/* Top-Rated TV Shows Section */}
       <section className="tv-category">
         <h2>Top-Rated TV Shows</h2>
         {topRatedData && (
@@ -52,7 +50,6 @@ const Page = () => {
         )}
       </section>
 
-      {/* Upcoming TV Shows Section */}
       <section className="tv-category">
         <h2>Upcoming TV Shows</h2>
         {upcomingData && (
@@ -74,7 +71,6 @@ const Page = () => {
         )}
       </section>
 
-      {/* Currently Running TV Shows Section */}
       <section className="tv-category">
         <h2>Currently Running TV Shows</h2>
         {currentlyRunningData && (

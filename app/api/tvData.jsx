@@ -22,7 +22,7 @@ export default function TvShows() {
     <div className="movies-grid">
       {data.results.map((show) => (
         <div key={show.id} className="movie-card">
-          <Link href={`/tvDetails/${show.id}`}> {/* Ensure correct route */}
+          <Link href={`/tvDetails/${show.id}`}>
             <img
               src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
               alt={show.name}
