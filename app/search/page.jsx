@@ -15,54 +15,50 @@ const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setResults([]); // Reset results on new search
-    setCurrentPage(1); // Reset page to 1
+    setResults([]);
+    setCurrentPage(1);
   }, [query]);
-
-  // Store the current scroll position before data is fetched
-  const storeScrollPosition = () => {
-    return window.scrollY;
-  };
-
-  // Restore the scroll position after the data is rendered
-  const restoreScrollPosition = (scrollPos) => {
-    window.scrollTo(0, scrollPos);
-  };
 
   useEffect(() => {
     if (query) {
-      const scrollPos = storeScrollPosition(); // Get the current scroll position
-      setIsLoading(true);
-      fetch(
-        `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${query}&page=${currentPage}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setResults((prevResults) =>
-            currentPage === 1 ? data.results : [...prevResults, ...data.results]
-          );
-          setTotalPages(data.total_pages);
-          setIsLoading(false);
-          restoreScrollPosition(scrollPos); // Restore the scroll position
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          setIsLoading(false);
-        });
+      fetchResults();
     }
   }, [query, currentPage]);
 
-  // Function to handle scroll and check if 80% of the page is reached
+  const fetchResults = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${query}&page=${currentPage}`
+      );
+      const data = await response.json();
+
+      if (data.results && Array.isArray(data.results)) {
+        setResults((prevResults) => [...prevResults, ...data.results]);
+        setTotalPages(data.total_pages || 1);
+      } else {
+        console.error("Invalid API response:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching results:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleScroll = () => {
-    const scrollPosition = window.scrollY + window.innerHeight;
+    const scrollPosition = window.innerHeight + document.documentElement.scrollTop;
     const documentHeight = document.documentElement.scrollHeight;
 
-    if (scrollPosition >= documentHeight * 0.8 && !isLoading && currentPage < totalPages) {
+    if (
+      scrollPosition >= documentHeight - 200 &&
+      !isLoading &&
+      currentPage < totalPages
+    ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
-  // Add scroll event listener on mount and remove it on unmount
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -70,38 +66,44 @@ const SearchPage = () => {
     };
   }, [isLoading, currentPage, totalPages]);
 
-  // Navigate to the movie details page with a dynamic route
-  const handleMovieClick = (id) => {
-    router.push(`/movieDetails/${id}`);
+  const handleMovieClick = (item) => {
+    if (item.media_type === "movie") {
+      router.push(`/movieDetails/${item.id}`);
+    } else if (item.media_type === "tv") {
+      router.push(`/tvDetails/${item.id}`);
+    } else {
+      console.error("Unknown media type:", item);
+    }
   };
 
   return (
     <div className="popular-movies">
-      <h2 className="popular-movies">Search Results for "{query}"</h2>
+      <h2>Search Results for "{query}"</h2>
       <div className="search-results-grid">
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : results.length > 0 ? (
-          results.map((item, index) => (
-            <div
-              key={`${item.id}-${index}`}  // Ensuring unique keys
-              className="search-card"
-              onClick={() => handleMovieClick(item.id)} // Navigate on click
-              style={{ cursor: "pointer" }}
-            >
-              <img
-                src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                alt={item.title || item.name}
-                className="poster"
-              />
-              <h3>{item.title || item.name}</h3>
-              <p>⭐ {item.vote_average ? item.vote_average.toFixed(1) : "N/A"} / 10</p>
-            </div>
-          ))
+        {results.length > 0 ? (
+          results
+            .filter((item) => item.poster_path && (item.title || item.name)) // Filter empty items
+            .map((item, index) => (
+              <div
+                key={`${item.id}-${index}`} // Ensure unique keys
+                className="search-card"
+                onClick={() => handleMovieClick(item)} // Pass the whole item
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                  alt={item.title || item.name}
+                  className="poster"
+                />
+                <h3>{item.title || item.name}</h3>
+                <p>⭐ {item.vote_average ? item.vote_average.toFixed(1) : "N/A"} / 10</p>
+              </div>
+            ))
         ) : (
-          <p>No results found.</p>
+          <p>{isLoading ? "Loading..." : "No results found."}</p>
         )}
       </div>
+      {isLoading && <p>Loading more results...</p>}
     </div>
   );
 };
