@@ -1,3 +1,5 @@
+//Done by Van S10268226K
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,7 +16,6 @@ const currentYear = new Date().getFullYear();
 const firstDayOfYear = `${currentYear}-01-01`; // January 1st of the current year
 const today = new Date().toISOString().split("T")[0]; // Current date
 
-// API Endpoints for different categories
 const TOP_RATED_MOVIES_API = (genreId) =>
   `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=vote_average.desc&page=1`;
 const NEW_MOVIES_API = (genreId) =>
@@ -30,13 +31,12 @@ function MoviesByGenre() {
   const { genreId } = useParams();
   const [genreName, setGenreName] = useState("");
 
-  // Fetch data for different categories using SWR
   const { data: topRatedMovies, error: topRatedError } = useSWR(() => genreId ? TOP_RATED_MOVIES_API(genreId) : null, fetcher);
   const { data: newMovies, error: newMoviesError } = useSWR(() => genreId ? NEW_MOVIES_API(genreId) : null, fetcher);
   const { data: currentlyRunningMovies, error: currentlyRunningError } = useSWR(() => genreId ? CURRENTLY_RUNNING_MOVIES_API(genreId) : null, fetcher);
   const { data: popularMovies, error: popularError } = useSWR(() => genreId ? POPULAR_MOVIES_API(genreId) : null, fetcher);
 
-  // Fetch genre name
+  // get genre name
   useEffect(() => {
     if (genreId) {
       fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
@@ -57,7 +57,7 @@ function MoviesByGenre() {
       <MovieGenreDropdown></MovieGenreDropdown>
       <h1>{genreName} Movies</h1>
 
-      {/* Popular Movies Section */}
+      {/*Shows popular/trending movies of the genre*/}
       <section className="movies-category">
         <h2>{genreName ? `Popular ${genreName} Movies` : "Popular Movies"}</h2>
         {popularMovies && (
@@ -79,7 +79,7 @@ function MoviesByGenre() {
         )}
       </section>
 
-      {/* Top-Rated Movies Section */}
+        {/*Shows Top Rated movies of the genre*/}
       <section className="movies-category">
         <h2>{genreName ? `Top-Rated ${genreName} Movies` : "Top-Rated Movies"}</h2>
         {topRatedMovies && (
@@ -101,7 +101,7 @@ function MoviesByGenre() {
         )}
       </section>
 
-      {/* New Movies Section (Only Movies from Current Year) */}
+        {/*Shows new movies of the genre/Movies aired in the current year*/}
       <section className="movies-category">
         <h2>{genreName ? `New ${genreName} Movies of ${currentYear}` : "New Movies"}</h2>
         {newMovies && (
@@ -122,8 +122,7 @@ function MoviesByGenre() {
           </div>
         )}
       </section>
-
-      {/* Currently Running Movies Section */}
+        {/*Shows movies that are currently running*/}
       <section className="movies-category">
         <h2>{genreName ? `Currently Running ${genreName} Movies` : "Currently Running Movies"}</h2>
         {currentlyRunningMovies && (
