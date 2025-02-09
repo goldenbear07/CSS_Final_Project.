@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import useSWR from "swr";
 import MovieGenreDropdown from "@/app/movieDropdown/page";
 
@@ -17,13 +16,15 @@ const today = new Date().toISOString().split("T")[0]; // Current date
 const TOP_RATED_MOVIES_API = (genreId) =>
   `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=vote_average.desc&page=1`;
 const NEW_MOVIES_API = (genreId) =>
-  `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&primary_release_date.gte=${firstDayOfYear}&primary_release_date.lte=${today}&sort_by=primary_release_date.asc&page=1`; // Only movies released this year
+  `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&primary_release_date.gte=${firstDayOfYear}&primary_release_date.lte=${today}&sort_by=primary_release_date.asc&page=1`;
 const CURRENTLY_RUNNING_MOVIES_API = (genreId) =>
+  `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&page=1`;
+const POPULAR_MOVIES_API = (genreId) =>
   `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&page=1`;
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function MoviesByGenre() {
+function MoviesByGenre() {
   const { genreId } = useParams();
   const [genreName, setGenreName] = useState("");
 
@@ -31,6 +32,7 @@ export default function MoviesByGenre() {
   const { data: topRatedMovies, error: topRatedError } = useSWR(() => genreId ? TOP_RATED_MOVIES_API(genreId) : null, fetcher);
   const { data: newMovies, error: newMoviesError } = useSWR(() => genreId ? NEW_MOVIES_API(genreId) : null, fetcher);
   const { data: currentlyRunningMovies, error: currentlyRunningError } = useSWR(() => genreId ? CURRENTLY_RUNNING_MOVIES_API(genreId) : null, fetcher);
+  const { data: popularMovies, error: popularError } = useSWR(() => genreId ? POPULAR_MOVIES_API(genreId) : null, fetcher);
 
   // Fetch genre name
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function MoviesByGenre() {
     }
   }, [genreId]);
 
-  if (topRatedError || newMoviesError || currentlyRunningError) {
+  if (topRatedError || newMoviesError || currentlyRunningError || popularError) {
     return <p className="error">Failed to load data.</p>;
   }
 
@@ -53,6 +55,25 @@ export default function MoviesByGenre() {
         <MovieGenreDropdown></MovieGenreDropdown>
       <h1>{genreName} Movies</h1>
 
+      {/* Popular Movies Section */}
+      <section className="movies-category">
+        <h2>{genreName ? `Popular ${genreName} Movies` : "Popular Movies"}</h2>
+        {popularMovies && (
+          <div className="movies-grid">
+            {popularMovies.results.slice(0, 20).map((movie) => (
+              <div key={movie.id} className="movie-card">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <h3>{movie.title}</h3>
+                <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
       {/* Top-Rated Movies Section */}
       <section className="movies-category">
         <h2>{genreName ? `Top-Rated ${genreName} Movies` : "Top-Rated Movies"}</h2>
@@ -60,14 +81,12 @@ export default function MoviesByGenre() {
           <div className="movies-grid">
             {topRatedMovies.results.slice(0, 20).map((movie) => (
               <div key={movie.id} className="movie-card">
-                <Link href={`/movie/${movie.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                  />
-                  <h3>{movie.title}</h3>
-                  <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
-                </Link>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <h3>{movie.title}</h3>
+                <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
               </div>
             ))}
           </div>
@@ -81,14 +100,12 @@ export default function MoviesByGenre() {
           <div className="movies-grid">
             {newMovies.results.slice(0, 20).map((movie) => (
               <div key={movie.id} className="movie-card">
-                <Link href={`/movieDetails/${movie.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                  />
-                  <h3>{movie.title}</h3>
-                  <p>Aired on: {new Date(movie.release_date).toLocaleDateString()}</p>
-                </Link>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <h3>{movie.title}</h3>
+                <p>Aired on: {new Date(movie.release_date).toLocaleDateString()}</p>
               </div>
             ))}
           </div>
@@ -102,14 +119,12 @@ export default function MoviesByGenre() {
           <div className="movies-grid">
             {currentlyRunningMovies.results.slice(0, 20).map((movie) => (
               <div key={movie.id} className="movie-card">
-                <Link href={`/movie/${movie.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                  />
-                  <h3>{movie.title}</h3>
-                  <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
-                </Link>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <h3>{movie.title}</h3>
+                <p>⭐ {movie.vote_average.toFixed(1)} / 10</p>
               </div>
             ))}
           </div>
@@ -118,3 +133,5 @@ export default function MoviesByGenre() {
     </div>
   );
 }
+
+export default MoviesByGenre;

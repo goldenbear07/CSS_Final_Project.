@@ -26,7 +26,8 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GenrePage = ({ params }) => {
   // Extract genreId from params
-  const { genreId } = params;
+  const resolvedParams = React.use(params);
+  const { genreId } = resolvedParams;
 
   // Fetch data for different categories using SWR
   const { data: topRatedData, error: topRatedError } = useSWR(TOP_RATED_TV_API(genreId), fetcher);
@@ -46,9 +47,30 @@ const GenrePage = ({ params }) => {
 
   return (
     <div>
-        <DropdownMenu></DropdownMenu>
-      {/* Genre-Specific Title */}
-      <h1>{genre ? `Top Rated ${genre} TV Shows` : 'Loading Genre...'}</h1>
+      <DropdownMenu></DropdownMenu>
+      <h1>{genre} TV Shows</h1>
+      {/* Popular TV Shows Section */}
+      <section className="tv-category">
+        <h2>{genre ? `Popular ${genre} TV Shows` : 'Popular TV Shows'}</h2>
+        {popularData && (
+          <div className="movies-grid">
+            {popularData.results.slice(0, 20).map((show) => (
+              <div key={show.id} className="movie-card">
+                <Link href={`/tvDetails/${show.id}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={show.name}
+                    className="poster"
+                  />
+                </Link>
+                <h3>{show.name}</h3>
+                <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+      
 
       {/* Top-Rated TV Shows Section */}
       <section className="tv-category">
@@ -71,7 +93,7 @@ const GenrePage = ({ params }) => {
           </div>
         )}
       </section>
-
+      
       {/* New TV Shows Section (Only Shows from Current Year) */}
       <section className="tv-category">
         <h2>{genre ? `New ${genre} TV Shows of ${currentYear}` : 'New TV Shows'}</h2>
@@ -89,50 +111,6 @@ const GenrePage = ({ params }) => {
                 <h3>{show.name}</h3>
                 <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
                 <p>Aired on: {new Date(show.first_air_date).toLocaleDateString()}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Currently Running TV Shows Section */}
-      <section className="tv-category">
-        <h2>{genre ? `Currently Running ${genre} TV Shows` : 'Currently Running TV Shows'}</h2>
-        {currentlyRunningData && (
-          <div className="movies-grid">
-            {currentlyRunningData.results.slice(0, 20).map((show) => (
-              <div key={show.id} className="movie-card">
-                <Link href={`/tvDetails/${show.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-                    alt={show.name}
-                    className="poster"
-                  />
-                </Link>
-                <h3>{show.name}</h3>
-                <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Popular TV Shows Section */}
-      <section className="tv-category">
-        <h2>{genre ? `Popular ${genre} TV Shows` : 'Popular TV Shows'}</h2>
-        {popularData && (
-          <div className="movies-grid">
-            {popularData.results.slice(0, 20).map((show) => (
-              <div key={show.id} className="movie-card">
-                <Link href={`/tvDetails/${show.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-                    alt={show.name}
-                    className="poster"
-                  />
-                </Link>
-                <h3>{show.name}</h3>
-                <p>⭐ {show.vote_average.toFixed(1)} / 10</p>
               </div>
             ))}
           </div>
