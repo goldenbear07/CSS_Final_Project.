@@ -32,7 +32,6 @@ const Navbar = () => {
         <li><a href="/">Home</a></li>
         <li><a href="/Movies">Movies</a></li>
         <li><a href="/Shows">TV Shows</a></li>
-        <li><a href="/favourites">Favourites</a></li>
         <li><a href="/search-history">Search History</a></li> {/* New link */}
       </ul>
       <div className={styles.navRight}>
@@ -56,5 +55,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
