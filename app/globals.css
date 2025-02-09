@@ -1,4 +1,3 @@
-/* General Styles */
 body {
   margin: 0;
   font-family: 'Netflix Sans', sans-serif;
@@ -12,7 +11,6 @@ h1, h2, h3, p {
   margin: 0;
 }
 
-/* Featured Movie Section */
 .featured-movie {
   position: relative;
   display: flex;
@@ -72,26 +70,24 @@ h1, h2, h3, p {
   z-index: 1;
 }
 
-/* Movies Section */
 .popular-movies, .popular-tv {
-  padding: 3rem; /* Horizontal padding for alignment */
-  margin: 0; /* Remove margin from section */
+  padding: 3rem;
+  margin: 0;
 }
 
 .popular-movies h2, .popular-tv {
   color: white;
-  margin: 2rem 0 1rem; /* Add spacing above and below the heading */
+  margin: 2rem 0 1rem;
   font-weight: bold;
   font-family: 'Netflix Sans', sans-serif;
 }
 
-/* Movies Grid */
 .movies-grid {
   display: flex;
   overflow-x: auto;
-  gap: 1.5rem; /* Spacing between cards */
-  margin: 0; /* Align grid with heading */
-  padding-bottom: 0rem; /* Add bottom padding for scrolling space */
+  gap: 1.5rem;
+  margin: 0;
+  padding-bottom: 0rem;
   scrollbar-width: none;
 }
 
@@ -99,7 +95,6 @@ h1, h2, h3, p {
   display: none;
 }
 
-/* Movie Card */
 .movie-card {
   width: 200px;
   flex-shrink: 0;
@@ -117,7 +112,6 @@ h1, h2, h3, p {
   transform: scale(1.05);
 }
 
-/* Movie Title and Rating */
 .movie-card h3 {
   font-size: 1rem;
   font-weight: bold;
@@ -133,28 +127,25 @@ h1, h2, h3, p {
   font-weight: bold;
 }
 
-/* Movie Details Page */
 .movie-details-page {
   color: white;
   font-family: 'Netflix Sans', sans-serif;
 }
 
-/* Banner Section */
 .banner {
   position: relative;
   width: 100%;
-  height: 600px; /* Increase height for a more cinematic feel */
-  background-size: cover; /* Ensures the image covers the entire banner */
-  background-position: top center; /* Focus on the center-top of the image */
-  background-repeat: no-repeat; /* Prevent tiling */
+  height: 600px;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
   display: flex;
-  align-items: flex-end; /* Align content to the bottom */
+  align-items: flex-end;
   justify-content: flex-start;
   color: white;
   overflow: hidden;
 }
 
-/* Gradient Overlay for Better Text Visibility */
 .banner::before {
   content: "";
   position: absolute;
@@ -166,7 +157,6 @@ h1, h2, h3, p {
   z-index: 1;
 }
 
-/* Banner Overlay Text Content */
 .banner-overlay {
   position: relative;
   z-index: 2;
@@ -201,7 +191,6 @@ h1, h2, h3, p {
   color: #ddd;
 }
 
-/* Details Section */
 .details-container {
   display: flex;
   gap: 2rem;
@@ -257,7 +246,6 @@ h1, h2, h3, p {
   font-size: 0.9rem;
 }
 
-/* Watch Trailer Button */
 .watch-trailer {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -292,7 +280,6 @@ h1, h2, h3, p {
   margin: 0;
 }
 
-
 .search-card {
   width: 200px;
   flex-shrink: 0; 
@@ -311,7 +298,6 @@ h1, h2, h3, p {
   transform: scale(1.05); 
 }
 
-
 .search-card h3 {
   font-size: 1rem;
   font-weight: bold;
@@ -327,7 +313,6 @@ h1, h2, h3, p {
   font-weight: bold;
 }
 
-/* Reviews Section */
 .reviews-section {
   margin: 2rem auto;
   max-width: 800px;
@@ -360,15 +345,16 @@ h1, h2, h3, p {
   color: #ccc;
   line-height: 1.5;
 }
+
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
 .dropdown-button {
-  background-color: rgb(173, 216, 230); /* Change to RGB color */
+  background-color: rgb(173, 216, 230);
   color: white;
-  padding: 15px 25px; /* More padding (vertical and horizontal) */
+  padding: 15px 25px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
@@ -387,11 +373,11 @@ h1, h2, h3, p {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   list-style: none;
-  padding: 10px; /* Adjust padding inside the menu */
+  padding: 10px;
 }
 
 .dropdown-item {
-  padding: 12px 20px; /* Increased padding for the items */
+  padding: 12px 20px;
   cursor: pointer;
 }
 
