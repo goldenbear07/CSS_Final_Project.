@@ -258,6 +258,7 @@ h1, h2, h3, p {
   margin-top: 1rem;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  border: none;
 }
 
 .watch-trailer:hover {
@@ -352,22 +353,24 @@ h1, h2, h3, p {
 }
 
 .dropdown-button {
-  background-color: rgb(173, 216, 230);
+  background-color: black;
   color: white;
   padding: 15px 25px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
+  margin: 15px;
 }
 
 .dropdown-button:hover {
-  background-color: #0056b3;
+  background-color: grey;
+  transform: scale(1.05);
 }
 
 .dropdown-menu {
   display: block;
   position: absolute;
-  background-color: white;
+  background-color: black;
   min-width: 200px;
   border: 1px solid #ccc;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -383,9 +386,47 @@ h1, h2, h3, p {
 
 .dropdown-item a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 .dropdown-item:hover {
-  background-color: #f1f1f1;
+  background-color: grey;
+}
+
+/*for cast in slug pages*/
+.cast-grid, .similar-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 1rem 0;
+}
+
+.cast-card, .similar-card {
+  min-width: 150px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cast-card img, .similar-card img {
+  width: 150px;
+  height: 225px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.cast-card img:hover, .similar-card img:hover {
+  transform: scale(1.05);
+}
+
+.actor-name, .movie-title, .tv-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.actor-role {
+  font-size: 0.9rem;
+  color: #ccc;
 }
